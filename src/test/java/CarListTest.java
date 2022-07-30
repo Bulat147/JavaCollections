@@ -75,4 +75,34 @@ class CarListTest {
         assertEquals(100, carList.size()); // Проверяем на то, что нечаянно не то не удалилось
     }
 
+    @Test
+    void whenAddInMiddleThenGetTrueValueByTheIndex(){
+        Car car = new Car("BMW190", 190);
+        // Вставка в центр
+        carList.add(car, 50);
+        assertEquals(101, carList.size());
+        Car inputCar = carList.get(50);
+        assertEquals("BMW190", inputCar.getModel());
+    }
+
+    @Test
+    void whenAddInHeadThenGetTrueValueByTheIndex() {
+        Car car = new Car("BMW190", 190);
+        // Вставка в начало
+        carList.add(car, 0);
+        assertEquals(101, carList.size());
+        Car inputCar = carList.get(0);
+        assertEquals("BMW190", inputCar.getModel());
+    }
+
+    @Test
+    void whenAddInTailThenGetTrueValueByTheIndex() {
+        Car car = new Car("BMW190", 190);
+        // Вставка в начало
+        carList.add(car, carList.size());
+        assertEquals(101, carList.size());
+        Car inputCar = carList.get(100);
+        assertEquals("BMW190", inputCar.getModel());
+    }
+
 }

@@ -11,6 +11,7 @@ public interface CarList{
     // бестельные методы интерфейса не нуждаются в явном указании модификаторов доступа - они всегда public
     // а вот тельные методы - всегда private
     void add(Car car);
+    void add(Car car, int index);
     Car get(int index);
     boolean remove(Car car);
     boolean removeAt(int index);
