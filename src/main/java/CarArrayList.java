@@ -1,3 +1,11 @@
+/** Плюсы Arraylist:
+ *      Получение элемента по индексу,
+ *      добавление в конец - O(1)
+ *  Минусы ArrayList:
+ *      Вставка в центр, удаление эл-та - O(n)
+ *      Утечка памяти, если в нем нет реализации уменьшения capacity
+ * */
+
 import java.util.Arrays;
 
 public class CarArrayList implements CarList{
