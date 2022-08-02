@@ -72,4 +72,10 @@ class CarSetTest {
         assertTrue(carSet.add(car)); // в этой строчке carList меняется!
         assertTrue(carSet.contains(car));
     }
+
+    @Test
+    void whenCheckNotExistedCarThenContainsIsFalse(){
+        Car car = new Car("Brooookliiin", 14);
+        assertFalse(carSet.contains(car));
+    }
 }
