@@ -13,13 +13,14 @@ public class CarArrayList implements CarList{
     private int size = 0;
 
     @Override
-    public void add(Car car) { // O(1), но если придется увеличивать массив - O(n)
+    public boolean add(Car car) { // O(1), но если придется увеличивать массив - O(n)
         increaseArray();
         array[size] = car;
         size++;
+        return true;
     }
 
-    public void add(Car car, int index){ // O(n)
+    public boolean add(Car car, int index){ // O(n)
         if(index<0  || index>size){
             throw new ArrayIndexOutOfBoundsException();
         }
@@ -29,6 +30,7 @@ public class CarArrayList implements CarList{
         // Меняет сам объект
         array[index] = car;
         size++;
+        return true;
     }
 
     @Override
@@ -66,6 +68,16 @@ public class CarArrayList implements CarList{
     public void clear() { // O(1)
         array = new Car[10];
         size = 0;
+    }
+
+    @Override
+    public boolean contains(Car car) {
+        for (Car temp: array){
+            if (car == temp){
+                return true;
+            }
+        }
+        return false;
     }
 
     private void checkIndex(int index) throws ArrayIndexOutOfBoundsException{

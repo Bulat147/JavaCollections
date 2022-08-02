@@ -7,7 +7,7 @@ public class CarLinkedList implements CarList{
     private int size = 0;
 
     @Override
-    public void add(Car car) {
+    public boolean add(Car car) {
         // Метод добавления в конец
         Node lastTail = tail;
         tail = new Node(lastTail, car, null);
@@ -17,13 +17,13 @@ public class CarLinkedList implements CarList{
             lastTail.next = tail;
         }
         size++;
+        return true;
     }
 
     @Override
-    public void add(Car car, int index) {
+    public boolean add(Car car, int index) {
         if (index == size){
-            add(car);
-            return;
+            return add(car);
         }
         Node nextNode = getNode(index); // уходит вправо
         Node lastNode = nextNode.previous;
@@ -35,6 +35,7 @@ public class CarLinkedList implements CarList{
             head = newNode;
         }
         size++;
+        return true;
     }
 
     @Override
@@ -88,6 +89,18 @@ public class CarLinkedList implements CarList{
         head = null;
         tail = null;
         size = 0;
+    }
+
+    @Override
+    public boolean contains(Car car) {
+        Node temp = head;
+        for (int i=0; i<size;i++){
+            if (temp.value == car){
+                return true;
+            }
+            temp = temp.next;
+        }
+        return false;
     }
 
     private Node getNode(int index){ // В нем же проверка на адекватный index

@@ -8,7 +8,7 @@ class CarSetTest {
 
     @BeforeEach
     void setUp() {
-        // init
+        carSet = new CarHashSet();
         Car temp;
         for (int i=0; i<100; i++){
             temp = new Car("Model"+Integer.toString(i), i);
@@ -33,8 +33,7 @@ class CarSetTest {
 
     @Test
     void whenAddExistCarThenSizeDontIncrease() {
-        // true - size ++ а если false - size==size
-        Car car1 = new Car("BMW", 123);
+        Car car1 = new Car("Model1", 1);
         int sizeBeforeAdd = carSet.size();
         boolean unsuccessfulAdd = carSet.add(car1);
         assertFalse(unsuccessfulAdd);
@@ -57,7 +56,7 @@ class CarSetTest {
         Car newCar = new Car("Toyota", 777); // Мы не добавляем этот элемент
         int currentSize = carSet.size();
         boolean unsuccessfulRemove = carSet.remove(newCar);
-        assertTrue(unsuccessfulRemove);
+        assertFalse(unsuccessfulRemove);
         assertEquals(currentSize, carSet.size());
     }
 
@@ -65,5 +64,12 @@ class CarSetTest {
     void whenClearThenSizeIs0() {
         carSet.clear();
         assertEquals(0, carSet.size());
+    }
+
+    @Test
+    void whenAddNewCarThenContainsItIsTrue(){
+        Car car = new Car("Brand", 145);
+        assertTrue(carSet.add(car)); // в этой строчке carList меняется!
+        assertTrue(carSet.contains(car));
     }
 }

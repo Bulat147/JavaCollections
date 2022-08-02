@@ -107,4 +107,10 @@ class CarLinkedListTest {
         assertEquals("BMW190", inputCar.getModel());
     }
 
+    @Test
+    void whenAddNewCarThenContainsItIsTrue(){
+        Car car = new Car("Brand", 145);
+        assertTrue(carList.add(car)); // в этой строчке carList меняется!
+        assertTrue(carList.contains(car));
+    }
 }
