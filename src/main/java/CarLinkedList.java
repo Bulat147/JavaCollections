@@ -45,13 +45,16 @@ public class CarLinkedList implements CarList{
     }
 
     @Override
+    public boolean contains(Car car) {
+        return findCar(car) != -1;
+    }
+
+    @Override
     public boolean remove(Car car) {
-        Node temp = head;
-        for (int i=0; i<size;i++){
-            if (temp.value.equals(car)){ // равны ли ссылочные типы
-                return removeAt(i); // т.к removeAt() возвращает boolean
-            }
-            temp = temp.next;
+        int index = findCar(car);
+        if (index != -1){
+            removeAt(index);
+            return true;
         }
         return false;
     }
@@ -91,16 +94,15 @@ public class CarLinkedList implements CarList{
         size = 0;
     }
 
-    @Override
-    public boolean contains(Car car) {
-        Node temp = head;
+    private int findCar(Car car){
+        Node node = head;
         for (int i=0; i<size;i++){
-            if (temp.value == car){
-                return true;
+            if (node.value == car){
+                return i;
             }
-            temp = temp.next;
+            node = node.next;
         }
-        return false;
+        return -1;
     }
 
     private Node getNode(int index){ // В нем же проверка на адекватный index

@@ -66,17 +66,6 @@ public class CarHashSet implements CarSet{
     }
 
     @Override
-    public int size() {
-        return size;
-    }
-
-    @Override
-    public void clear() {
-        array = new Entry[16];
-        size = 0;
-    }
-
-    @Override
     public boolean contains(Car car) {
         int position = getElementPosition(car, array.length);
         Entry entry = array[position];
@@ -89,6 +78,16 @@ public class CarHashSet implements CarSet{
         return false;
     }
 
+    @Override
+    public int size() {
+        return size;
+    }
+
+    @Override
+    public void clear() {
+        array = new Entry[16];
+        size = 0;
+    }
 
     private void increaseArray(){
         // ћы увеличиваем capacity, но size остаетс€ таким же -> его не трогаем

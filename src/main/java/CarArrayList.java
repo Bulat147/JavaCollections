@@ -40,6 +40,16 @@ public class CarArrayList implements CarList{
     }
 
     @Override
+    public boolean contains(Car car) {
+        for (Car temp: array){
+            if (car == temp){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public boolean remove(Car car) { // O(n)
         for (int i=0; i<size; i++){
             if (array[i].equals(car)){ // ¬се ссылочные типы нужно сравнивать так
@@ -68,16 +78,6 @@ public class CarArrayList implements CarList{
     public void clear() { // O(1)
         array = new Car[10];
         size = 0;
-    }
-
-    @Override
-    public boolean contains(Car car) {
-        for (Car temp: array){
-            if (car == temp){
-                return true;
-            }
-        }
-        return false;
     }
 
     private void checkIndex(int index) throws ArrayIndexOutOfBoundsException{
