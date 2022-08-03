@@ -1,4 +1,4 @@
-
+import java.util.Iterator;
 
 public class CarLinkedList implements CarList{
     // приватные чтобы user не мог их мен€ть не примен€€ нужных методов
@@ -114,6 +114,24 @@ public class CarLinkedList implements CarList{
             temp = temp.next;
         }
         return temp;
+    }
+
+    @Override
+    public Iterator<Car> iterator() {
+        return new Iterator<Car>() {
+            private Node node = head;
+            @Override
+            public boolean hasNext() {
+                return node != null;
+            }
+
+            @Override
+            public Car next() {
+                Car car = node.value;
+                node = node.next;
+                return car;
+            }
+        };
     }
 
     // ¬ложенный класс узлов, т.к. св€зный список —ќ—“ќ»“ из узлов, это его части

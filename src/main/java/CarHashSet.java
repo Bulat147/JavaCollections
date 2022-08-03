@@ -1,7 +1,9 @@
+import java.util.Iterator;
+
 public class CarHashSet implements CarSet{
     private final int INITIAL_CAPACITY = 16;
     private Entry[] array = new Entry[INITIAL_CAPACITY]; // вначале - 16 связных списков
-    private int size = 0;
+    private int size = 0; // показывает кол-во элементов, а не размер array
     private final double LOAD_FACTOR = 0.75;
 
     @Override
@@ -105,6 +107,35 @@ public class CarHashSet implements CarSet{
     private static int getElementPosition(Car car, int arrayLength){
         // hashcode может быть отрицательным, тогда может быть ошибка, поэтому нужно брать abs
         return Math.abs(car.hashCode() % arrayLength);
+    }
+
+    @Override
+    public Iterator<Car> iterator() {
+        return new Iterator<Car>() {
+            private int index = 0;
+            private Entry entry = array[index];
+            @Override
+            public boolean hasNext() {
+                while (index < array.length) { // именно длина массива, а не size - тут она как кол-во элементов
+                    if (entry != null) {
+                        return true;
+                    }
+                    index++;
+                    if(index >= array.length){
+                        break;
+                    }
+                    entry = array[index];
+                }
+                return false;
+            }
+
+            @Override
+            public Car next() {
+                Car car = entry.car;
+                entry = entry.next;
+                return car;
+            }
+        };
     }
 
     private static class Entry { // Внутренние связные списки

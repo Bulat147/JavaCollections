@@ -24,24 +24,9 @@ class CarListTest {
     }
 
     @Test
-    void whenAdd100ElementsSizeIs100() {
-        assertEquals(100, carList.size());
-    }
-
-    @Test
     void whenGetByIndexReturnTrueCar() {
         Car tempCar = carList.get(2);
         assertEquals(tempCar.getModel(), "Model2");
-    }
-
-    @Test
-    void whenRemoveCarThenSizeMustBeDecreased() {
-        Car car = new Car("Porshe", 111);
-        carList.add(car);
-        assertEquals(carList.size(), 101);
-        boolean check = carList.remove(car);
-        assertTrue(check); // проверяем успешно ли удалилось
-        assertEquals(carList.size(), 100);
     }
 
     @Test
@@ -60,19 +45,6 @@ class CarListTest {
         ArrayIndexOutOfBoundsException thrown2 = assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
             carList.removeAt(112);
         });
-    }
-
-    @Test
-    void whenListClearedThenSizeMustBe0() {
-        carList.clear();
-        assertEquals(0, carList.size());
-    }
-
-    @Test
-    void whenRemovedNonExistentCarThenReturnFalse(){
-        Car car = new Car("Toyota", 189);
-        assertFalse(carList.remove(car));
-        assertEquals(100, carList.size()); // Проверяем на то, что нечаянно не то не удалилось
     }
 
     @Test
@@ -103,18 +75,5 @@ class CarListTest {
         assertEquals(101, carList.size());
         Car inputCar = carList.get(100);
         assertEquals("BMW190", inputCar.getModel());
-    }
-
-    @Test
-    void whenAddNewCarThenContainsItIsTrue(){
-        Car car = new Car("Brand", 145);
-        assertTrue(carList.add(car)); // в этой строчке carList меняется!
-        assertTrue(carList.contains(car));
-    }
-
-    @Test
-    void whenCheckNotExistedCarThenContainsIsFalse(){
-        Car car = new Car("Brooookliiin", 14);
-        assertFalse(carList.contains(car));
     }
 }
