@@ -12,9 +12,9 @@
 
 import java.util.Objects;
 
-public class Car {
-    public String model;
-    public int number;
+public class Car implements Comparable<Car>{ // Generics в Comparable - это то с чем можно данный класс сравнивать
+    private final String model;
+    private final int number;
 
     public static void main(String[] args) {
         Car car1 = new Car("TTC", 123);
@@ -55,5 +55,19 @@ public class Car {
     public int hashCode() {
         // Этот метод создает хэш, основываясь на полях объекта
         return Objects.hash(model, number);
+    }
+
+    /** Этот метод нужно реализовывать, чтобы работал TreeSet, чтоб там можно было объекты сравнивать */
+    @Override
+    public int compareTo(Car o) {
+        return this.getModel().compareTo(o.getModel()); // вернет 0 - равны, -1 - this меньше, 1+ - this больше
+    }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "model='" + model + '\'' +
+                ", number=" + number +
+                '}';
     }
 }
