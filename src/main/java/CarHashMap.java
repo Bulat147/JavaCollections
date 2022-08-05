@@ -1,5 +1,6 @@
 import java.util.*;
 
+/** У реального HashMap есть переход ячеек из LinkedList в TreeSet для производительности */
 public class CarHashMap implements CarMap{
     private final int INITIAL_CAPACITY = 10;
     private static final double LOAD_FACTOR = 0.75;
