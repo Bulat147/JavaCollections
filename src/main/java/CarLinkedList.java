@@ -1,6 +1,6 @@
 import java.util.Iterator;
 
-public class CarLinkedList implements CarList{
+public class CarLinkedList implements CarList, CarQueue{
     // приватные чтобы user не мог их менять не применяя нужных методов
     private Node head = null;
     private Node tail = null;
@@ -18,6 +18,22 @@ public class CarLinkedList implements CarList{
         }
         size++;
         return true;
+    }
+
+    @Override
+    public Car pick() {
+        // Тернарный оператор: сайз больше нуля? Да - верни get(0) : Нет - верни null
+        return size>0 ? get(0) : null;
+    }
+
+    @Override
+    public Car poll() {
+        if (size > 0){
+            Car car = pick();
+            removeAt(0);
+            return car;
+        }
+        return null;
     }
 
     @Override
