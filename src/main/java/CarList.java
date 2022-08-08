@@ -7,13 +7,13 @@
 
 import java.util.List;
 
-public interface CarList extends CarCollection{
+public interface CarList<T> extends CarCollection<T>{
     // бестельные методы интерфейса не нуждаются в явном указании модификаторов доступа - они всегда public
     // а вот тельные методы - всегда private
-    boolean add(Car car);
-    boolean add(Car car, int index);
-    Car get(int index);
-    boolean remove(Car car);
+    boolean add(T car);
+    boolean add(T car, int index);
+    T get(int index);
+    boolean remove(T car);
     boolean removeAt(int index);
     int size();
     void clear();

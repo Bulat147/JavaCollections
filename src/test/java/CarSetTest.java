@@ -4,11 +4,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CarSetTest {
-    private CarSet carSet;
+    private CarSet<Car> carSet;
 
     @BeforeEach
     void setUp() {
-        carSet = new CarHashSet();
+        carSet = new CarHashSet<>();
         Car temp;
         for (int i=0; i<100; i++){
             temp = new Car("Model"+Integer.toString(i), i);

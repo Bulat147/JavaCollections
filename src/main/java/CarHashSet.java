@@ -1,13 +1,13 @@
 import java.util.Iterator;
 
-public class CarHashSet implements CarSet{
+public class CarHashSet<T> implements CarSet<T>{
     private final int INITIAL_CAPACITY = 16;
-    private Entry[] array = new Entry[INITIAL_CAPACITY]; // вначале - 16 св€зных списков
+    private Object[] array = new Object[INITIAL_CAPACITY]; // вначале - 16 св€зных списков
     private int size = 0; // показывает кол-во элементов, а не размер array
     private final double LOAD_FACTOR = 0.75;
 
     @Override
-    public boolean add(Car car) {
+    public boolean add(T car) {
         if (size >= array.length*LOAD_FACTOR) {
             // ѕроверку на лоуд-фактор написал здесь, а не в increaseArray, потому что ф-ци€ должна
             // выполн€ть как можно более специфичную задачу.
@@ -20,9 +20,9 @@ public class CarHashSet implements CarSet{
         return added;
     }
 
-    private boolean add(Car car, Entry[] someArray) {
+    private boolean add(T car, Object[] someArray) {
         int position = getElementPosition(car, someArray.length);
-        Entry temp = someArray[position];
+        Entry temp = (Entry) someArray[position];
         // »нтересный вариант написани€ кода - сначала писать один шаг и только потом его обхватывать циклом
         if (temp == null){
             someArray[position] = new Entry(car, null);
@@ -42,9 +42,9 @@ public class CarHashSet implements CarSet{
     }
 
     @Override
-    public boolean remove(Car car) {
+    public boolean remove(T car) {
         int position = getElementPosition(car, array.length);
-        Entry temp = array[position];
+        Entry temp = (Entry) array[position];
         if (temp == null){
             return false;
         }else if(temp.car == car){
@@ -68,9 +68,9 @@ public class CarHashSet implements CarSet{
     }
 
     @Override
-    public boolean contains(Car car) {
+    public boolean contains(T car) {
         int position = getElementPosition(car, array.length);
-        Entry entry = array[position];
+        Entry entry = (Entry) array[position];
         while (entry != null){
             if (entry.car.equals(car)){
                 return true;
@@ -87,15 +87,15 @@ public class CarHashSet implements CarSet{
 
     @Override
     public void clear() {
-        array = new Entry[16];
+        array = new Object[16];
         size = 0;
     }
 
     private void increaseArray(){
         // ћы увеличиваем capacity, но size остаетс€ таким же -> его не трогаем
-        Entry[] newArray = new Entry[array.length*2];
-        for (Entry entry: array){
-            Entry temp = entry;
+        Object[] newArray = new Object[array.length*2];
+        for (Object entry: array){
+            Entry temp = (Entry) entry;
             while (temp != null){
                 add(temp.car, newArray); // ¬от здесь понадобилось, чтобы add было не прив€зано к array
                 temp = temp.next;
@@ -104,16 +104,16 @@ public class CarHashSet implements CarSet{
         array = newArray;
     }
 
-    private static int getElementPosition(Car car, int arrayLength){
+    private static int getElementPosition(Object car, int arrayLength){
         // hashcode может быть отрицательным, тогда может быть ошибка, поэтому нужно брать abs
         return Math.abs(car.hashCode() % arrayLength);
     }
 
     @Override
-    public Iterator<Car> iterator() {
-        return new Iterator<Car>() {
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
             private int index = 0;
-            private Entry entry = array[index];
+            private Entry entry = (Entry) array[index];
             @Override
             public boolean hasNext() {
                 while (index < array.length) { // именно длина массива, а не size - тут она как кол-во элементов
@@ -124,25 +124,25 @@ public class CarHashSet implements CarSet{
                     if(index >= array.length){
                         break;
                     }
-                    entry = array[index];
+                    entry = (Entry) array[index];
                 }
                 return false;
             }
 
             @Override
-            public Car next() {
-                Car car = entry.car;
+            public T next() {
+                T car = entry.car;
                 entry = entry.next;
                 return car;
             }
         };
     }
 
-    private static class Entry { // ¬нутренние св€зные списки
-        private final Car car;
+    private class Entry { // ¬нутренние св€зные списки
+        private final T car;
         private Entry next;
 
-        public Entry(Car car, Entry next){
+        public Entry(T car, Entry next){
             this.car = car;
             this.next = next;
         }

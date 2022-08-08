@@ -8,11 +8,11 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CarMapTest {
-    CarMap carMap;
+    CarMap<CarOwner, Car> carMap;
 
     @BeforeEach
     void setUp(){
-        carMap = new CarHashMap();
+        carMap = new CarHashMap<>();
         for (int i=0; i<50; i++){
             Car car = new Car("Model"+i, i);
             CarOwner owner = new CarOwner("Owner"+i, i);

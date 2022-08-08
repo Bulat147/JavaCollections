@@ -1,13 +1,13 @@
 import java.util.Iterator;
 
-public class CarLinkedList implements CarList, CarQueue{
+public class CarLinkedList<T> implements CarList<T>, CarQueue<T>{
     // приватные чтобы user не мог их менять не применяя нужных методов
     private Node head = null;
     private Node tail = null;
     private int size = 0;
 
     @Override
-    public boolean add(Car car) {
+    public boolean add(T car) {
         // Метод добавления в конец
         Node lastTail = tail;
         tail = new Node(lastTail, car, null);
@@ -21,15 +21,15 @@ public class CarLinkedList implements CarList, CarQueue{
     }
 
     @Override
-    public Car pick() {
+    public T pick() {
         // Тернарный оператор: сайз больше нуля? Да - верни get(0) : Нет - верни null
         return size>0 ? get(0) : null;
     }
 
     @Override
-    public Car poll() {
+    public T poll() {
         if (size > 0){
-            Car car = pick();
+            T car = pick();
             removeAt(0);
             return car;
         }
@@ -37,7 +37,7 @@ public class CarLinkedList implements CarList, CarQueue{
     }
 
     @Override
-    public boolean add(Car car, int index) {
+    public boolean add(T car, int index) {
         if (index == size){
             return add(car);
         }
@@ -55,18 +55,18 @@ public class CarLinkedList implements CarList, CarQueue{
     }
 
     @Override
-    public Car get(int index) {
+    public T get(int index) {
         // Отличается от getNode тем, что возвращает значение, а не узел
         return getNode(index).value;
     }
 
     @Override
-    public boolean contains(Car car) {
+    public boolean contains(T car) {
         return findCar(car) != -1;
     }
 
     @Override
-    public boolean remove(Car car) {
+    public boolean remove(T car) {
         int index = findCar(car);
         if (index != -1){
             removeAt(index);
@@ -110,7 +110,7 @@ public class CarLinkedList implements CarList, CarQueue{
         size = 0;
     }
 
-    private int findCar(Car car){
+    private int findCar(T car){
         Node node = head;
         for (int i=0; i<size;i++){
             if (node.value == car){
@@ -133,8 +133,8 @@ public class CarLinkedList implements CarList, CarQueue{
     }
 
     @Override
-    public Iterator<Car> iterator() {
-        return new Iterator<Car>() {
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
             private Node node = head;
             @Override
             public boolean hasNext() {
@@ -142,8 +142,8 @@ public class CarLinkedList implements CarList, CarQueue{
             }
 
             @Override
-            public Car next() {
-                Car car = node.value;
+            public T next() {
+                T car = node.value;
                 node = node.next;
                 return car;
             }
@@ -151,12 +151,13 @@ public class CarLinkedList implements CarList, CarQueue{
     }
 
     // Вложенный класс узлов, т.к. связный список СОСТОИТ из узлов, это его части
-    private static class Node{
+    // Есть 2 варианта, чтобы внести T в Node - либо параметризовать его, либо избавиться от static, чтобы Node видел поля объекта
+    private class Node{
         public Node previous;
-        public Car value;
+        public T value;
         public Node next;
 
-        public Node(Node previous, Car value, Node next){
+        public Node(Node previous, T value, Node next){
             this.previous = previous;
             this.value = value;
             this.next = next;

@@ -9,19 +9,22 @@
 import java.util.Arrays;
 import java.util.Iterator;
 
-public class CarArrayList implements CarList{
-    private Car[] array = new Car[10]; // capacity = 10
+public class CarArrayList<T> implements CarList<T>{
+    /** С обобщенными типами нельзя следующее:
+     *      1) Создавать объект через new T(), тк неизвестно, есть ли у этого типа конструктор
+     *      2) Создавать массивы типа T[10]. И вместо этого создают массивы типа Object */
+    private Object[] array = new Object[10];
     private int size = 0;
 
     @Override
-    public boolean add(Car car) { // O(1), но если придется увеличивать массив - O(n)
+    public boolean add(T car) { // O(1), но если придется увеличивать массив - O(n)
         increaseArray();
         array[size] = car;
         size++;
         return true;
     }
 
-    public boolean add(Car car, int index){ // O(n)
+    public boolean add(T car, int index){ // O(n)
         if(index<0  || index>size){
             throw new ArrayIndexOutOfBoundsException();
         }
@@ -35,15 +38,19 @@ public class CarArrayList implements CarList{
     }
 
     @Override
-    public Car get(int index) { // O(1)
+    public T get(int index) { // O(1)
         checkIndex(index);
-        return array[index];
+        /** Здесь для return необходим downCasting из типа Object в тип T */
+        // Здесь подсвечивает из-за ситуации, что в массиве может быть элемент не типа T, но это невозможно
+        // т.к. add 100% принимает на вход только тип T, а IDE это не просчитывает
+        return (T) array[index];
     }
 
     @Override
-    public boolean contains(Car car) {
-        for (Car temp: array){
-            if (car == temp){
+    public boolean contains(T car) {
+        for (Object temp: array){
+            // Здесь тоже нужен downCasting тк equals может не сработать из-за различия реализации
+            if (car.equals((T) temp)){ // Ну не забывай про equals со ссылочными типами!!!
                 return true;
             }
         }
@@ -51,7 +58,7 @@ public class CarArrayList implements CarList{
     }
 
     @Override
-    public boolean remove(Car car) { // O(n)
+    public boolean remove(T car) { // O(n)
         for (int i=0; i<size; i++){
             if (array[i].equals(car)){ // Все ссылочные типы нужно сравнивать так
                 return removeAt(i);
@@ -77,7 +84,7 @@ public class CarArrayList implements CarList{
 
     @Override
     public void clear() { // O(1)
-        array = new Car[10];
+        array = new Object[10];
         size = 0;
     }
 
@@ -95,9 +102,9 @@ public class CarArrayList implements CarList{
     }
 
     @Override
-    public Iterator<Car> iterator() {
+    public Iterator<T> iterator() {
         // возвращаем объект анонимного класса, реализующего интерфейс Iterator
-        return new Iterator<Car>() {
+        return new Iterator<T>() {
             private int index = 0;
 
             @Override
@@ -106,8 +113,8 @@ public class CarArrayList implements CarList{
             }
 
             @Override
-            public Car next() {
-                return array[index++];
+            public T next() {
+                return (T) array[index++];
             }
         };
     }

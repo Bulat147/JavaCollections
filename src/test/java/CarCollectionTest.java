@@ -5,11 +5,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CarCollectionTest {
 
-    private CarCollection cars;
+    private CarCollection<Car> cars;
 
     @BeforeEach
     void setUp(){
-        cars = new CarHashSet();
+        cars = new CarHashSet<>();
         for (int i=0; i<100; i++){
             // Вот, например, эта часть была написана ещё до инициализации carList
             cars.add(new Car("Model"+i, i));

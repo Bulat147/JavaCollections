@@ -7,11 +7,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class CarListTest {
     // Очень классный прием - чтобы не создавать объект, но при этом уже с ним работать в
     // тестах - можно его декларировать. И тогда мы уже можем обращаться к его методам.
-    private CarList carList;
+    private CarList<Car> carList;
 
     @BeforeEach
     void setUp() {
-        carList = new CarArrayList();
+        carList = new CarArrayList<>();
         for (int i=0; i<100; i++){
             // Вот, например, эта часть была написана ещё до инициализации carList
             carList.add(new Car("Model"+Integer.toString(i), i));
